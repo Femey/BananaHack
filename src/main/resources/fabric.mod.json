@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "addon-template",
+  "id": "bananahack",
   "version": "${version}",
-  "name": "Addon Template",
-  "description": "An addon template for the Meteor addons.",
+  "name": "BananaHack",
+  "description": "An addon for Meteor Client.",
   "authors": [
-    "seasnail"
+    "WobblyBananaHat"
   ],
   "contact": {
-    "repo": "https://github.com/MeteorDevelopment/meteor-addon-template"
+    "repo": "https://github.com/Femey/BananaHack"
   },
-  "icon": "assets/template/icon.png",
+  "icon": "",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "com.example.addon.Addon"
+      "me.banana.BananaHack"
     ]
   },
   "mixins": [
-    "addon-template.mixins.json"
+    "bananamixins.json"
   ],
   "custom": {
-    "meteor-client:color": "225,25,25"
+    "meteor-client:color": "255,193,0"
   },
   "depends": {
     "java": ">=17",
