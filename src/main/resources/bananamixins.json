@@ -2,8 +2,9 @@
   "required": true,
   "package": "me.banana.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+  ]
 }
