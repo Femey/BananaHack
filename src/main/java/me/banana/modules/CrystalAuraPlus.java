@@ -298,6 +298,17 @@ public class CrystalAuraPlus extends Module {
         .build()
     );
 
+    public final Setting<Integer> minHealthPlace = sgPlace.add(new IntSetting.Builder()
+        .name("min-health")
+        .description("min health you need to place")
+        .defaultValue(6)
+        .min(0)
+        .max(36)
+        .sliderMax(36)
+        .visible(doPlace::get)
+        .build()
+    );
+
     public final Setting<Double> placeWallsRange = sgPlace.add(new DoubleSetting.Builder()
         .name("place-walls-range")
         .description("How far away you can place crystals through blocks.")
@@ -404,14 +415,6 @@ public class CrystalAuraPlus extends Module {
     public final Setting<Boolean> KAPause = sgFacePlace.add(new BoolSetting.Builder()
         .name("pause-on-KA")
         .description("Will pause face placing when KA is active.")
-        .defaultValue(true)
-        .visible(facePlace::get)
-        .build()
-    );
-
-    public final Setting<Boolean> CevPause = sgFacePlace.add(new BoolSetting.Builder()
-        .name("pause-on-cev")
-        .description("Will pause face placing when Cev Breaker is active.")
         .defaultValue(true)
         .visible(facePlace::get)
         .build()
@@ -620,6 +623,17 @@ public class CrystalAuraPlus extends Module {
         .range(0,36)
         .sliderRange(0,36)
         .visible(() -> doBreak.get() && BDamageIgnore.get() != DamageIgnore.Always)
+        .build()
+    );
+
+    public final Setting<Integer> minHealthBreak = sgBreak.add(new IntSetting.Builder()
+        .name("min-health")
+        .description("min health you need to break")
+        .defaultValue(6)
+        .min(0)
+        .max(36)
+        .sliderMax(36)
+        .visible(doPlace::get)
         .build()
     );
 
@@ -1234,7 +1248,7 @@ public class CrystalAuraPlus extends Module {
 
     private void doBreak() {
         if (!doBreak.get() || breakTimer > 0 || switchTimer > 0 || attacks >= attackFrequency.get() || (popPause.get() != PopPause.Place && CrystalUtils.targetJustPopped())) return;
-
+        if (mc.player.getHealth() < minHealthBreak.get()) {return;}
         float bestDamage = 0;
         Entity crystal = null;
 
@@ -1369,6 +1383,7 @@ public class CrystalAuraPlus extends Module {
 
     private void doPlace() {
         if (!doPlace.get() || placeTimer > 0 || (popPause.get() != PopPause.Break && CrystalUtils.targetJustPopped())) return;
+        if (mc.player.getHealth() < minHealthPlace.get()) {return;}
 
         // Return if there are no crystals in hotbar or offhand
         if (!InvUtils.findInHotbar(Items.END_CRYSTAL).found()) return;
