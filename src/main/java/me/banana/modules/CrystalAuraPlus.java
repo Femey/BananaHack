@@ -840,13 +840,6 @@ public class CrystalAuraPlus extends Module {
 
 
     // Pause
-    public final Setting<Double> pauseAtHealth = sgPause.add(new DoubleSetting.Builder()
-        .name("pause-health")
-        .description("Pauses when you go below a certain health.")
-        .defaultValue(5)
-        .min(0)
-        .build()
-    );
 
     private final Setting<Boolean> eatPause = sgPause.add(new BoolSetting.Builder()
         .name("pause-on-eat")
@@ -1164,7 +1157,7 @@ public class CrystalAuraPlus extends Module {
         }
 
         // Check pause settings
-        if (PlayerUtils.shouldPause(minePause.get(), eatPause.get(), drinkPause.get()) || PlayerUtils.getTotalHealth() <= pauseAtHealth.get()) {
+        if (PlayerUtils.shouldPause(minePause.get(), eatPause.get(), drinkPause.get())) {
             if (debug.get()) warning("Pausing");
             return;
         }
