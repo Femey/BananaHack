@@ -3,6 +3,7 @@ package me.banana.util;
 import net.minecraft.block.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -19,5 +20,9 @@ public class WorldUtil {
             }
         }
         return false;
+    }
+
+    public static BlockPos roundBlockPos(Vec3d vec) {
+        return new BlockPos(vec.x, (int) Math.round(vec.y), vec.z);
     }
 }

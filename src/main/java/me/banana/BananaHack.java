@@ -23,6 +23,7 @@ public class BananaHack extends MeteorAddon {
         Modules.get().add(new PrefixManager());
         Modules.get().add(new NoSlowPlus());
         Modules.get().add(new SprintPlus());
+        Modules.get().add(new CrystalAuraPlus());
 
         // Commands
         Commands.get().add(new CommandTest());
