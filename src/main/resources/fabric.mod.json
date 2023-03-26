@@ -10,7 +10,6 @@
   "contact": {
     "repo": "https://github.com/Femey/BananaHack"
   },
-  "icon": "",
   "environment": "client",
   "entrypoints": {
     "meteor": [
@@ -20,6 +19,7 @@
   "mixins": [
     "bananamixins.json"
   ],
+  "accessWidener": "bananahack.accesswidener",
   "custom": {
     "meteor-client:color": "255,193,0"
   },

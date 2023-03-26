@@ -1,9 +1,7 @@
 package me.banana;
 
 import me.banana.commands.CommandTest;
-import me.banana.modules.PrefixManager;
-import me.banana.modules.StrafePlus;
-import me.banana.modules.WobblyAnchor;
+import me.banana.modules.*;
 import com.mojang.logging.LogUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.systems.commands.Commands;
@@ -23,6 +21,8 @@ public class BananaHack extends MeteorAddon {
         Modules.get().add(new WobblyAnchor());
         Modules.get().add(new StrafePlus());
         Modules.get().add(new PrefixManager());
+        Modules.get().add(new NoSlowPlus());
+        Modules.get().add(new SprintPlus());
 
         // Commands
         Commands.get().add(new CommandTest());

@@ -2,6 +2,10 @@ plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/bananahack.accesswidener")
+}
+
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
