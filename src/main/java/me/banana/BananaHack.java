@@ -20,6 +20,7 @@ public class BananaHack extends MeteorAddon {
         // Modules
         Modules.get().add(new WobblyAnchor());
         Modules.get().add(new StrafePlus());
+        Modules.get().add(new BedAuraPlus());
         Modules.get().add(new PrefixManager());
         Modules.get().add(new NoSlowPlus());
         Modules.get().add(new SprintPlus());

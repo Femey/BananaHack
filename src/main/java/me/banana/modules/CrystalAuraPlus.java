@@ -1651,7 +1651,7 @@ public class CrystalAuraPlus extends Module {
                     bestTargetTimer = 10;
                 }
 
-                damage = dmg;
+                damage += dmg;
             }
         }
 
