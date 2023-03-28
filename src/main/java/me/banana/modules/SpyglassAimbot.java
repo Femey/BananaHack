@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.GoatHornItem;
 import net.minecraft.util.math.Vec3d;
 
 public class SpyglassAimbot extends Module {
