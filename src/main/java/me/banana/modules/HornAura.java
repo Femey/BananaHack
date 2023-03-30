@@ -10,11 +10,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.GoatHornItem;
 import net.minecraft.util.Hand;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class AutoHorn extends Module {
-    public AutoHorn() {
-        super(BananaHack.BANANAHACK, "AutoHorn", "blows a horn automatically when someone gets into render distance");
+public class HornAura extends Module {
+    public HornAura() {
+        super(BananaHack.BANANAHACK, "HornAura", "blows a horn automatically when someone gets into render distance");
     }
 
     @EventHandler
