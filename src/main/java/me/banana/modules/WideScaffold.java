@@ -78,6 +78,7 @@ public class WideScaffold extends Module {
         rendersAdded = 0;
 
         // Get nearby blocks
+        assert mc.player != null;
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos belowPos = playerPos.down();
         List<BlockPos> nearby = BlockPlaceHelper.getSphere(playerPos, rRange.get(), 1);
