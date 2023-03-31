@@ -17,7 +17,7 @@ public class AutoPorn extends Module {
             e.printStackTrace();
         }
     }
-
+@Override
     public void onActivate() {
         openWebpage("https://www.pornhub.com/video/search?search=trans");
     }
