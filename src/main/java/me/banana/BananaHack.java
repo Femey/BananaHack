@@ -18,6 +18,7 @@ public class BananaHack extends MeteorAddon {
         LOG.info("Initializing BananaHack");
 
         // Modules
+        Modules.get().add(new AutoMoan());
         Modules.get().add(new WobblyAnchor());
         Modules.get().add(new StrafePlus());
         Modules.get().add(new BedAuraPlus());
