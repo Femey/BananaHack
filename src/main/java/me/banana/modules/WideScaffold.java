@@ -83,13 +83,13 @@ public class WideScaffold extends Module {
         BlockPos belowPos = playerPos.down();
         List<BlockPos> nearby = BlockPlaceHelper.getSphere(playerPos, rRange.get(), 1);
         // Remove any blocks not on our y level
-        nearby.removeIf(blockPos -> blockPos.getY() != belowPos.getY());
+        BlockPlaceHelper.removeIf(blockPos -> blockPos.getY() != belowPos.getY());
         // Remove any blocks we can't place
-        nearby.removeIf(blockPos -> !BlockUtils.canPlace(blockPos));
+        BlockPlaceHelper.removeIf(blockPos -> !BlockUtils.canPlace(blockPos));
         // Sort all the blocks by shortest -> the longest distance99
-        nearby.sort(Comparator.comparingDouble(PlayerUtils::distanceTo));
+        BlockPlaceHelper.sort(Comparator.comparingDouble(PlayerUtils::distanceTo));
         // Place the scaffold blocks
-        for (BlockPos pos : nearby) {
+        for (BlockPos pos : BlockPlaceHelper) {
             if (blocksPlaced >= blocksPerTick.get()) break;
             placeScaffoldBlock(pos);
             // create a render for the block after its placed

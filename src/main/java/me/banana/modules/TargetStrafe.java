@@ -1,10 +1,12 @@
 package me.banana.modules;
 
 import jdk.random.L128X1024MixRandom;
+import me.banana.BananaHack;
 import me.banana.util.RotationHelper;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -15,16 +17,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static net.minecraft.client.network.SocialInteractionsManager.*;
 
-public class TargetStrafe extends  {
+public class TargetStrafe extends Module {
 
     public enum MoveMode{Basic, Scroll}
     public enum ExecuteMode{Tick, Move}
 
 
     public TargetStrafe() {
-        super(L128X1024MixRandom., "target-strafe", "automatically circle your target");
+        super(BananaHack.BANANAHACK, "TargetStrafe", "Makes you run around someone while hitting them");
     }
-
     private Settings settings;
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
@@ -80,7 +81,6 @@ public class TargetStrafe extends  {
         double s1 = (mc.player.getZ() - target.getZ()) / (Math.sqrt(Math.pow(mc.player.getX() - target.getX(), 2) + Math.pow(mc.player.getZ() - target.getZ(), 2)));
         double x = speed * s1 * direction - scrollSpeed.get() * speed * c1;
         double z = -speed * c1 * direction - scrollSpeed.get() * speed * s1;
-        SocialInteractionsManager.setHVelocity(x, z);
     }
 
     private void getBasic(float yaw, double speed, double forward, double direction) {
@@ -103,7 +103,6 @@ public class TargetStrafe extends  {
 
         double x = forward * speed * cos + direction * speed * sin;
         double z = forward * speed * sin - direction * speed * cos;
-        SocialInteractionsManager.setHVelocity(x, z);
     }
 
 }

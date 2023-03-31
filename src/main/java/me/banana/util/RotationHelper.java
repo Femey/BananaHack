@@ -78,8 +78,8 @@ public class RotationHelper {
         else diffY = (targetEntity.getBoundingBox().minY + targetEntity.getBoundingBox().maxY) / 2.0D - mc.player.getY() + mc.player.getEyeY() - 0.5;
 
         double dist = MathHelper.sqrt((float) (diffX * diffX + diffZ * diffZ));
-        float yaw = (float) (((Math.atan2(diffZ, diffX) * 180.0 / Math.PI) - 90.0f)) + Formatter.random(-2, 2);
-        float pitch = (float) (-(Math.atan2(diffY, dist) * 180.0 / Math.PI)) + Formatter.random(-2, 2);
+        float yaw = (float) (((Math.atan2(diffZ, diffX) * 180.0 / Math.PI) - 90.0f)) + new Formatter(-2, 2);
+        float pitch = (float) (-(Math.atan2(diffY, dist) * 180.0 / Math.PI)) + Formatter.,(-2, 2);
         yaw = mc.player.getYaw() + getFixedRotation(MathHelper.wrapDegrees(yaw - mc.player.getYaw()));
         pitch = mc.player.getPitch() + getFixedRotation(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
         return new float[] { yaw, pitch };

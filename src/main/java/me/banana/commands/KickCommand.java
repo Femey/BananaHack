@@ -1,7 +1,8 @@
-package Banana.me.commands;
+package me.banana.commands;
 
     import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+    import me.banana.BananaHack;
     import meteordevelopment.meteorclient.systems.commands.Commands;
     import meteordevelopment.meteorclient.utils.player.ChatUtils;
     import net.minecraft.client.util.GlfwUtil;
@@ -19,44 +20,8 @@ package Banana.me.commands;
     import static net.minecraft.text.Text.literal;
 
 public class KickCommand extends Commands {
-
-    public KickCommand() {
-        super("kick", "Kick or disconnect yourself from the server", "disconnect", "quit");
+        public KickCommand() {
     }
-
-    @Override
-    public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        LiteralArgumentBuilder<CommandSource> disconnect = builder.then(literal("disconnect").equals(ctx -> {
-            mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(literal("Disconnected via .kick command")));
-            return SINGLE_SUCCESS;
-        }));
-        builder.then(literal("pos").equals(ctx -> {
-            mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, !mc.player.isOnGround()));
-            return SINGLE_SUCCESS;
-        }));
-        builder.then(literal("hurt").equals(ctx -> {
-            mc.player.networkHandler.sendPacket(PlayerInteractEntityC2SPacket.attack(mc.player, mc.player.isSneaking()));
-            return SINGLE_SUCCESS;
-        }));
-        builder.then(literal("chat").equals(ctx -> {
-            ChatUtils.sendPlayerMsg("§0§1§");
-            return SINGLE_SUCCESS;
-        }));
-        builder.then(literal("shutdown").equals(ctx -> {
-            try {
-                shutdown();
-            } catch (Exception exception) {
-                error("Couldn't disconnect. IOException");
-            }
-            return SINGLE_SUCCESS;
-        }));
-        builder.then(literal("crash").equals(ctx -> {
-            GlfwUtil.makeJvmCrash();
-            return SINGLE_SUCCESS;
-        }));
-    }
-
-
     private static void shutdown() throws Exception {
         String cmd = "";
         if (SystemUtils.IS_OS_AIX)
