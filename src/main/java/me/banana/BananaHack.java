@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 public class BananaHack extends MeteorAddon {
     public static final Logger LOG = LogUtils.getLogger();
     public static final Category BANANAHACK = new Category("BananaHack");
+    public static final Category BANANATROLL = new Category("BananaHack Troll");
 
     @Override
     public void onInitialize() {
@@ -40,6 +41,7 @@ public class BananaHack extends MeteorAddon {
     @Override
     public void onRegisterCategories() {
         Modules.registerCategory(BANANAHACK);
+        Modules.registerCategory(BANANATROLL);
     }
 
     @Override
