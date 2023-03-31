@@ -24,7 +24,7 @@ public class AutoMoan extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     private final Setting<MoanMode> moanmode = sgGeneral.add(new EnumSetting.Builder<MoanMode>()
-        .name("Kill Message Mode")
+        .name("Message Mode")
         .description("What kind of messages to send.")
         .defaultValue(MoanMode.Submissive)
         .build()
@@ -42,6 +42,12 @@ public class AutoMoan extends Module {
         .defaultValue(30)
         .range(0, 60)
         .sliderRange(0, 60)
+        .build()
+    );
+    private final Setting<Boolean> msg = sgGeneral.add(new BoolSetting.Builder()
+        .name("Msg")
+        .description("msgs instead of putting it in main chat")
+        .defaultValue(false)
         .build()
     );
 
@@ -119,22 +125,24 @@ public class AutoMoan extends Module {
     }
 
     void MOAN() {
-        switch (moanmode.get()){
-            case Submissive -> {
-                int num = r.nextInt(0, Submissive.length - 1);
-                if (num == lastNum) {
-                    num = num < Submissive.length - 1 ? num + 1 : 0;
+        if (getClosest().getName().getString() != null) {
+            switch (moanmode.get()) {
+                case Submissive -> {
+                    int num = r.nextInt(0, Submissive.length - 1);
+                    if (num == lastNum) {
+                        num = num < Submissive.length - 1 ? num + 1 : 0;
+                    }
+                    lastNum = num;
+                    messageQueue.add(0, new Message((msg.get() ? "/w " + getClosest().getName().getString() + " " : "") + Submissive[num].replace("%s", getClosest().getName().getString()), false));
                 }
-                lastNum = num;
-                messageQueue.add(0, new Message(Submissive[num].replace("%s",getClosest().getName().getString() == null ? "You" : getClosest().getName().getString()),false));
-            }
-            case Dominant -> {
-                int num = r.nextInt(0, Dominant.length - 1);
-                if (num == lastNum) {
-                    num = num < Dominant.length - 1 ? num + 1 : 0;
+                case Dominant -> {
+                    int num = r.nextInt(0, Dominant.length - 1);
+                    if (num == lastNum) {
+                        num = num < Dominant.length - 1 ? num + 1 : 0;
+                    }
+                    lastNum = num;
+                    messageQueue.add(0, new Message((msg.get() ? "/w " + getClosest().getName().getString() + " " : "") + Dominant[num].replace("%s", getClosest().getName().getString()), false));
                 }
-                lastNum = num;
-                messageQueue.add(0, new Message(Dominant[num].replace("%s",getClosest().getName().getString() == null ? "You" : getClosest().getName().getString()),false));
             }
         }
     }
