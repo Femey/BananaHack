@@ -1,33 +1,40 @@
 package me.banana.util;
-    import meteordevelopment.meteorclient.utils.render.color.Color;
-    import meteordevelopment.meteorclient.utils.world.CardinalDirection;
-    import net.minecraft.util.math.BlockPos;
-    import net.minecraft.util.math.Direction;
-
-    import java.util.Arrays;
+import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.world.CardinalDirection;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 public class Renderers {
 
     // Bed render with fading and damage rendering
     public static class SimpleBedRender {
         private BlockPos center;
-        private final CardinalDirection offset = null;
-        private final Color sideColor1 = null;
-        private final Color lineColor1 = null;
-        private final Color damageColor = null;
+        private CardinalDirection offset;
+        private final Color sideColor1;
+        private final Color lineColor1;
+        private final Color damageColor;
         private int renderTicks;
-        private final int fadeFactor = Integer.parseInt(null);
+        private final int fadeFactor;
         private double damage;
         private String damageText;
 
-        public SimpleBedRender() {
+        public SimpleBedRender(BlockPos bed, int renderTime, CardinalDirection dir, Color sideColor, Color lineColor, Color damageC, int fade, double dmg) {
+            center = bed;
+            offset = dir;
+            sideColor1 = new Color(sideColor.r, sideColor.g, sideColor.b, sideColor.a);
+            lineColor1 = new Color(lineColor.r, lineColor.g, lineColor.b, lineColor.a);
+            damageColor = new Color(damageC.r, damageC.g, damageC.b, damageC.a);
+            fadeFactor = fade;
+            renderTicks = MathUtil.intToTicks(renderTime);
+            damage = dmg;
+            damageText = String.valueOf(Math.round(damage * 100.0) / 100.0);
         }
 
         public void tick() {
             renderTicks--;
-            for (Color color : Arrays.asList(sideColor1, lineColor1, damageColor)) {
-                color.a -= fadeFactor;
-            }
+            sideColor1.a -= fadeFactor;
+            lineColor1.a -= fadeFactor;
+            damageColor.a -= fadeFactor;
         }
 
         public boolean shouldRemove() {
@@ -56,8 +63,8 @@ public class Renderers {
         private final Color damageColor;
         private int renderTicks;
         private final int fadeFactor;
-        private final double damage;
-        private final String damageText;
+        private double damage;
+        private String damageText;
 
         public SimpleAnchorRender(BlockPos p, int renderTime, Color sideColor, Color lineColor, Color damageC, int fade, double dmg) {
             pos = p;
@@ -142,6 +149,7 @@ public class Renderers {
         private final Color lineColor1;
         private final Color ogSide;
         private final Color ogLine;
+        private final int renderTicks;
         private final int fadeFactor;
 
         public SimpleBlockFadeIn(BlockPos p, int renderTime, Color sideColor, Color lineColor, int fade) {
@@ -151,7 +159,7 @@ public class Renderers {
             sideColor1 = new Color(sideColor.r, sideColor.g, sideColor.b, -sideColor.a); // reverse alpha for fading in
             lineColor1 = new Color(lineColor.r, lineColor.g, lineColor.b, -lineColor.a);
             fadeFactor = fade;
-            int renderTicks = MathUtil.intToTicks(renderTime);
+            renderTicks = MathUtil.intToTicks(renderTime);
         }
 
         public void tick() {

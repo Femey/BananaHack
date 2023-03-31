@@ -1,8 +1,8 @@
 
 package me.banana.modules;
-    import baritone.utils.BlockPlaceHelper;
     import me.banana.BananaHack;
     import me.banana.util.Renderers;
+    import me.banana.util.WorldUtil;
     import meteordevelopment.meteorclient.events.render.Render3DEvent;
     import meteordevelopment.meteorclient.events.world.TickEvent;
     import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -17,7 +17,6 @@ package me.banana.modules;
     import net.minecraft.block.Block;
     import net.minecraft.util.math.BlockPos;
 
-    import javax.management.loading.MLet;
     import java.util.ArrayList;
     import java.util.Comparator;
     import java.util.List;
@@ -78,18 +77,17 @@ public class WideScaffold extends Module {
         rendersAdded = 0;
 
         // Get nearby blocks
-        assert mc.player != null;
         BlockPos playerPos = mc.player.getBlockPos();
         BlockPos belowPos = playerPos.down();
-        List<BlockPos> nearby = BlockPlaceHelper.getSphere(playerPos, rRange.get(), 1);
+        List<BlockPos> nearby = WorldUtil.getSphere(playerPos, rRange.get(), 1);
         // Remove any blocks not on our y level
-        BlockPlaceHelper.removeIf(blockPos -> blockPos.getY() != belowPos.getY());
+        nearby.removeIf(blockPos -> blockPos.getY() != belowPos.getY());
         // Remove any blocks we can't place
-        BlockPlaceHelper.removeIf(blockPos -> !BlockUtils.canPlace(blockPos));
-        // Sort all the blocks by shortest -> the longest distance99
-        BlockPlaceHelper.sort(Comparator.comparingDouble(PlayerUtils::distanceTo));
+        nearby.removeIf(blockPos -> !BlockUtils.canPlace(blockPos));
+        // Sort all the blocks by shortest -> the longest distance
+        nearby.sort(Comparator.comparingDouble(PlayerUtils::distanceTo));
         // Place the scaffold blocks
-        for (BlockPos pos : BlockPlaceHelper) {
+        for (BlockPos pos : nearby) {
             if (blocksPlaced >= blocksPerTick.get()) break;
             placeScaffoldBlock(pos);
             // create a render for the block after its placed
@@ -105,7 +103,7 @@ public class WideScaffold extends Module {
         if (!block.found()) return;
         blocksPlaced++;
         rendersAdded++;
-        BlockUtils.place(pos, block, rotation.get(), 100, packetPlace.get());
+        WorldUtil.place(pos, block, rotation.get(), packetPlace.get());
     }
 
     // Rendering

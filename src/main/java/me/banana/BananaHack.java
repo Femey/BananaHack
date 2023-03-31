@@ -28,6 +28,7 @@ public class BananaHack extends MeteorAddon {
         Modules.get().add(new SpyglassAimbot());
         Modules.get().add(new HornAura());
         Modules.get().add(new WideScaffold());
+        Modules.get().add(new TargetStrafe());
         // Commands
         Commands.get().add(new CommandTest());
     }
