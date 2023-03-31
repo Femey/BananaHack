@@ -10,15 +10,13 @@ public class AutoPorn extends Module {
         super(BananaHack.BANANATROLL, "AutoPorn", "Opens your browser to Porn");
     }
 
-    public void openWebpage(String url) {
+    @Override
+    public void onActivate() {
+        String url = "https://www.pornhub.com/video/search?search=trans";
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-@Override
-    public void onActivate() {
-        openWebpage("https://www.pornhub.com/video/search?search=trans");
     }
 }
