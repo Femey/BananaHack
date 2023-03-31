@@ -21,8 +21,6 @@ public class AutoMoan extends Module {
 
     public AutoMoan() {super(BananaHack.BANANAHACK, "AutoMoan","Moans sexual things to the closest person");}
 
-    //Where the fuck did I go so wrong in life to end up coding fucking AutoMoan
-
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
     private final Setting<MoanMode> moanmode = sgGeneral.add(new EnumSetting.Builder<MoanMode>()

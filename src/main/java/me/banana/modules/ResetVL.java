@@ -10,11 +10,6 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 
-
-/*
-Made by KassuK
-*/
-
 public class ResetVL extends Module {
     public ResetVL() {
         super(BananaHack.BANANAHACK, "ResetVL", "Tries to reset your violation level");

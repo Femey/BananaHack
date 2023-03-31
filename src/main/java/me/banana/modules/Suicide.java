@@ -10,8 +10,6 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.screen.DeathScreen;
 
-import javax.crypto.Mac;
-
 public class Suicide extends Module {
     public Suicide() {super(BananaHack.BANANAHACK, "Suicide", "Speeeeeeeed");}
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
