@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class AutoMoan extends Module {
 
-    public AutoMoan() {super(BananaHack.BANANAHACK, "AutoMoan","Moans sexual things to the closest person");}
+    public AutoMoan() {super(BananaHack.BANANATROLL, "AutoMoan","Moans sexual things to the closest person");}
 
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 

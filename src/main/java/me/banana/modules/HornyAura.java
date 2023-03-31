@@ -10,9 +10,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.GoatHornItem;
 import net.minecraft.util.Hand;
 
-public class HornAura extends Module {
-    public HornAura() {
-        super(BananaHack.BANANAHACK, "HornAura", "blows a horn automatically when someone gets into render distance");
+public class HornyAura extends Module {
+    public HornyAura() {
+        super(BananaHack.BANANATROLL, "HornAura", "blows a horn automatically when someone gets into render distance");
     }
 
     @EventHandler

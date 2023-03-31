@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class SpyglassAimbot extends Module {
     public SpyglassAimbot() {
-        super(BananaHack.BANANAHACK, "SpyglassAimbot", "Looks at people when using a spy glass");
+        super(BananaHack.BANANATROLL, "SpyglassAimbot", "Looks at people when using a spy glass");
     }
 
 
