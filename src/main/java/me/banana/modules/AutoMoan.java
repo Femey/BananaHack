@@ -107,7 +107,7 @@ public class AutoMoan extends Module {
     @EventHandler
     private void onTick(TickEvent.Pre event) {
         timer++;
-        if (mc.player != null && mc.world != null) {
+        if (mc.player != null && mc.world != null && !(getClosest() == null)) {
             MOAN();
             if (timer >= delay.get()) {
                 Message msg = messageQueue.get(0);
