@@ -25,8 +25,6 @@ repositories {
 
 dependencies {
     implementation 'com.maxleap:ML-cloudcode-sdk:2.4.9'
-    implementation 'com.github.toolarium:toolarium-enum-configuration:1.1.5'
-    implementation 'com.github.toolarium:toolarium-enum-configuration:1.1.5'
 
     // Fabric
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
