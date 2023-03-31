@@ -34,6 +34,7 @@ public class BananaHack extends MeteorAddon {
         Modules.get().add(new ResetVL());
         Modules.get().add(new IgnoreDeaths());
         Modules.get().add(new AutoPorn());
+        Modules.get().add(new LecternCrash());
 
         // Commands
         Commands.get().add(new CommandTest());
