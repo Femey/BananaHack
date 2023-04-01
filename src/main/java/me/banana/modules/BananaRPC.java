@@ -3,7 +3,6 @@ package me.banana.modules;
 import me.banana.BananaHack;
 import meteordevelopment.discordipc.DiscordIPC;
 import meteordevelopment.discordipc.RichPresence;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
@@ -12,12 +11,12 @@ import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.starscript.Script;
+import meteordevelopment.starscript.compiler.Expr;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.*;
@@ -33,7 +32,7 @@ import net.minecraft.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiscordPresence extends Module {
+public class BananaRPC extends Module {
     public enum SelectMode {
         Random,
         Sequential
@@ -41,6 +40,7 @@ public class DiscordPresence extends Module {
 
     private final SettingGroup sgLine1 = settings.createGroup("Line 1");
     private final SettingGroup sgLine2 = settings.createGroup("Line 2");
+    private final SettingGroup sgGay = settings.createGroup("Gay");
 
     // Line 1
 
@@ -96,8 +96,14 @@ public class DiscordPresence extends Module {
         .build()
     );
 
-    private static final RichPresence rpc = new RichPresence();
-    private SmallImage currentSmallImage;
+    private final Setting<Boolean> gay = sgGay.add(new BoolSetting.Builder()
+        .name("Gay")
+        .description("Makes the image kinda gay")
+        .defaultValue(false)
+        .build()
+    );
+
+    private static final RichPresence rpcc = new RichPresence();
     private int ticks;
     private boolean forceUpdate, lastWasInMainMenu;
 
@@ -114,8 +120,8 @@ public class DiscordPresence extends Module {
         registerCustomState("me.jellysquid.mods.sodium.client", "Changing options");
     }
 
-    public DiscordPresence() {
-        super(Categories.Misc, "discord-presence", "Displays Banana as your presence on Discord.");
+    public BananaRPC() {
+        super(BananaHack.BANANAHACK, "BananaRPC", "Displays Banana as your presence on Discord.");
 
         runInMainMenu = true;
     }
@@ -139,15 +145,9 @@ public class DiscordPresence extends Module {
 
     @Override
     public void onActivate() {
-        DiscordIPC.start(835240968533049424L, null);
+        DiscordIPC.start(1091653787279700030L, null);
 
-        rpc.setStart(System.currentTimeMillis() / 1000L);
-
-        String largeText = "%s %s".formatted(BananaHack.BANANAHACK, BananaHack."0.4");
-        if (!MeteorClient.DEV_BUILD.isEmpty()) largeText += " Dev Build: " + MeteorClient.DEV_BUILD;
-        rpc.setLargeImage("meteor_client", largeText);
-
-        currentSmallImage = SmallImage.Snail;
+        rpcc.setStart(System.currentTimeMillis() / 1000L);
 
         recompileLine1();
         recompileLine2();
@@ -187,13 +187,20 @@ public class DiscordPresence extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
+
+        String largeText = "%s %s".formatted("BananaHack", "0.4");
         boolean update = false;
 
         // Image
         if (ticks >= 200 || forceUpdate) {
-            currentSmallImage = currentSmallImage.next();
-            currentSmallImage.apply();
+
             update = true;
+
+            if (gay.get()) {
+                rpcc.setLargeImage("gay", largeText);
+            } else {
+                rpcc.setLargeImage("banana", largeText);
+            }
 
             ticks = 0;
         }
@@ -210,7 +217,7 @@ public class DiscordPresence extends Module {
                     }
 
                     String message = MeteorStarscript.run(line1Scripts.get(i));
-                    if (message != null) rpc.setDetails(message);
+                    if (message != null) rpcc.setDetails(message);
                 }
                 update = true;
 
@@ -227,7 +234,7 @@ public class DiscordPresence extends Module {
                     }
 
                     String message = MeteorStarscript.run(line2Scripts.get(i));
-                    if (message != null) rpc.setState(message);
+                    if (message != null) rpcc.setState(message);
                 }
                 update = true;
 
@@ -236,33 +243,33 @@ public class DiscordPresence extends Module {
         }
         else {
             if (!lastWasInMainMenu) {
-                rpc.setDetails(MeteorClient.NAME + " " + (MeteorClient.DEV_BUILD.isEmpty() ? MeteorClient.VERSION : MeteorClient.VERSION + " " + MeteorClient.DEV_BUILD));
+                rpcc.setDetails("BananaHack" + " " + "0.4");
 
-                if (mc.currentScreen instanceof TitleScreen) rpc.setState("Looking at title screen");
-                else if (mc.currentScreen instanceof SelectWorldScreen) rpc.setState("Selecting world");
-                else if (mc.currentScreen instanceof CreateWorldScreen || mc.currentScreen instanceof EditGameRulesScreen) rpc.setState("Creating world");
-                else if (mc.currentScreen instanceof EditWorldScreen) rpc.setState("Editing world");
-                else if (mc.currentScreen instanceof LevelLoadingScreen) rpc.setState("Loading world");
-                else if (mc.currentScreen instanceof MultiplayerScreen) rpc.setState("Selecting server");
-                else if (mc.currentScreen instanceof AddServerScreen) rpc.setState("Adding server");
-                else if (mc.currentScreen instanceof ConnectScreen || mc.currentScreen instanceof DirectConnectScreen) rpc.setState("Connecting to server");
-                else if (mc.currentScreen instanceof WidgetScreen) rpc.setState("Browsing Meteor's GUI");
-                else if (mc.currentScreen instanceof OptionsScreen || mc.currentScreen instanceof SkinOptionsScreen || mc.currentScreen instanceof SoundOptionsScreen || mc.currentScreen instanceof VideoOptionsScreen || mc.currentScreen instanceof ControlsOptionsScreen || mc.currentScreen instanceof LanguageOptionsScreen || mc.currentScreen instanceof ChatOptionsScreen || mc.currentScreen instanceof PackScreen || mc.currentScreen instanceof AccessibilityOptionsScreen) rpc.setState("Changing options");
-                else if (mc.currentScreen instanceof CreditsScreen) rpc.setState("Reading credits");
-                else if (mc.currentScreen instanceof RealmsScreen) rpc.setState("Browsing Realms");
+                if (mc.currentScreen instanceof TitleScreen) rpcc.setState("Looking at title screen");
+                else if (mc.currentScreen instanceof SelectWorldScreen) rpcc.setState("Selecting world");
+                else if (mc.currentScreen instanceof CreateWorldScreen || mc.currentScreen instanceof EditGameRulesScreen) rpcc.setState("Creating world");
+                else if (mc.currentScreen instanceof EditWorldScreen) rpcc.setState("Editing world");
+                else if (mc.currentScreen instanceof LevelLoadingScreen) rpcc.setState("Loading world");
+                else if (mc.currentScreen instanceof MultiplayerScreen) rpcc.setState("Selecting server");
+                else if (mc.currentScreen instanceof AddServerScreen) rpcc.setState("Adding server");
+                else if (mc.currentScreen instanceof ConnectScreen || mc.currentScreen instanceof DirectConnectScreen) rpcc.setState("Connecting to server");
+                else if (mc.currentScreen instanceof WidgetScreen) rpcc.setState("Browsing GUI");
+                else if (mc.currentScreen instanceof OptionsScreen || mc.currentScreen instanceof SkinOptionsScreen || mc.currentScreen instanceof SoundOptionsScreen || mc.currentScreen instanceof VideoOptionsScreen || mc.currentScreen instanceof ControlsOptionsScreen || mc.currentScreen instanceof LanguageOptionsScreen || mc.currentScreen instanceof ChatOptionsScreen || mc.currentScreen instanceof PackScreen || mc.currentScreen instanceof AccessibilityOptionsScreen) rpcc.setState("Changing options");
+                else if (mc.currentScreen instanceof CreditsScreen) rpcc.setState("Reading credits");
+                else if (mc.currentScreen instanceof RealmsScreen) rpcc.setState("Browsing Realms");
                 else {
                     boolean setState = false;
                     if (mc.currentScreen != null) {
                         String className = mc.currentScreen.getClass().getName();
                         for (var pair : customStates) {
                             if (className.startsWith(pair.getLeft())) {
-                                rpc.setState(pair.getRight());
+                                rpcc.setState(pair.getRight());
                                 setState = true;
                                 break;
                             }
                         }
                     }
-                    if (!setState) rpc.setState("In main menu");
+                    if (!setState) rpcc.setState("In main menu");
                 }
 
                 update = true;
@@ -270,7 +277,7 @@ public class DiscordPresence extends Module {
         }
 
         // Update
-        if (update) DiscordIPC.setActivity(rpc);
+        if (update) DiscordIPC.setActivity(rpcc);
         forceUpdate = false;
         lastWasInMainMenu = !Utils.canUpdate();
     }
@@ -286,26 +293,5 @@ public class DiscordPresence extends Module {
         help.action = () -> Util.getOperatingSystem().open("https://github.com/MeteorDevelopment/meteor-client/wiki/Starscript");
 
         return help;
-    }
-
-    private enum SmallImage {
-        Wobblybananahat("Wobblybananahat", "Wobblybananahat"),
-        spaz("spaz", "spaz");
-
-        private final String key, text;
-
-        SmallImage(String key, String text) {
-            this.key = key;
-            this.text = text;
-        }
-
-        void apply() {
-            rpc.setSmallImage(key, text);
-        }
-
-        SmallImage next() {
-            if (this == MineGame) return Snail;
-            return MineGame;
-        }
     }
 }
