@@ -11,12 +11,9 @@ import net.minecraft.text.Text;
 
 import java.util.Random;
 
-import static me.banana.BananaHack.BANANAHACK;
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class SexDupe extends Module {
     public SexDupe() {
-        super(BANANAHACK, "SexDupe", "Dupe Cum");
+        super(BananaHack.BANANAHACK, "SexDupe", "Dupe Cum");
     }
 
     private final Random random = new Random();
