@@ -1,14 +1,16 @@
 package me.banana.modules;
 
 import me.banana.BananaHack;
+import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.text.Text;
 
 import java.util.Random;
 
-import static java.lang.Compiler.disable;
 import static me.banana.BananaHack.BANANAHACK;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -19,7 +21,7 @@ public class SexDupe extends Module {
 
     private final Random random = new Random();
 
-    public void onEnable() {
+    public void onActivate() {
         ClientPlayerEntity player = mc.player;
         ClientWorld world = mc.world;
 
@@ -29,7 +31,7 @@ public class SexDupe extends Module {
 
         if (itemStack.isEmpty()) {
             setDisabledMessage("You need to hold an item in hand to dupe!");
-            disable();
+            toggle();
             return;
         }
 
@@ -43,8 +45,8 @@ public class SexDupe extends Module {
         }
 
         int total = count * itemStack.getCount();
-        player.sendChatMessage("I just used BananaHack to dupe " + total + " " + itemStack.getName().getString() + " thanks to the developers!");
-        disable();
+        ChatUtils.sendPlayerMsg("I just used BananaHack to dupe " + total + " " + itemStack.getName().getString() + " thanks to the developers!");
+        toggle();
     }
 
     private void setDisabledMessage(String s) {
