@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.starscript.Script;
 import meteordevelopment.starscript.compiler.Expr;
@@ -26,6 +27,7 @@ import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.realms.gui.screen.RealmsScreen;
+import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.Util;
 
@@ -100,6 +102,15 @@ public class BananaRPC extends Module {
         .name("Gay")
         .description("Makes the image kinda gay")
         .defaultValue(false)
+        .build()
+    );
+
+    private final Setting<Integer> gayDelay = sgGay.add(new IntSetting.Builder()
+        .name("gay-update-delay")
+        .description("How fast to update the gay.")
+        .defaultValue(200)
+        .min(1)
+        .sliderRange(10, 200)
         .build()
     );
 
@@ -184,20 +195,28 @@ public class BananaRPC extends Module {
     private void recompileLine2() {
         recompile(line2Strings.get(), line2Scripts);
     }
+    boolean updateimage;
 
     @EventHandler
     private void onTick(TickEvent.Post event) {
 
-        String largeText = "%s %s".formatted("BananaHack", "0.4");
         boolean update = false;
 
+
         // Image
-        if (ticks >= 200 || forceUpdate) {
+        if (ticks >= gayDelay.get() || forceUpdate) {
 
+
+            ChatUtils.sendMsg(Text.of("reloaded image"));
             update = true;
+            String largeText = "%s %s".formatted("BananaHack", "0.4");
 
-            if (gay.get()) {
+            if (gay.get() && updateimage) {
                 rpcc.setLargeImage("gay", largeText);
+                updateimage = false;
+            }else if (gay.get() && !updateimage){
+                rpcc.setLargeImage("thighs", largeText);
+                updateimage = true;
             } else {
                 rpcc.setLargeImage("banana", largeText);
             }
