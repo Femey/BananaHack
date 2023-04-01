@@ -7,7 +7,7 @@ import java.net.URI;
 
 public class AutoPorn extends Module {
     public AutoPorn() {
-        super(BananaHack.BANANATROLL, "AutoPorn", "Opens your browser to Porn");
+        super(BananaHack.BANANATROLL, "AutoPorn", "Opens your browser to Porn(not working)");
     }
 
     @Override
