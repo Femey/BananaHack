@@ -209,7 +209,7 @@ public class BananaRPC extends Module {
 
             ChatUtils.sendMsg(Text.of("reloaded image"));
             update = true;
-            String largeText = "%s %s".formatted("BananaHack", "0.4");
+            String largeText = "%s %s".formatted("BananaHack", "0.5");
 
             if (gay.get() && updateimage) {
                 rpcc.setLargeImage("gay", largeText);
@@ -262,7 +262,7 @@ public class BananaRPC extends Module {
         }
         else {
             if (!lastWasInMainMenu) {
-                rpcc.setDetails("BananaHack" + " " + "0.4");
+                rpcc.setDetails("BananaHack" + " " + "0.5");
 
                 if (mc.currentScreen instanceof TitleScreen) rpcc.setState("Looking at title screen");
                 else if (mc.currentScreen instanceof SelectWorldScreen) rpcc.setState("Selecting world");
